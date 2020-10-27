@@ -3,6 +3,9 @@
 
 import os
 import csv
+import glob
+import errno
+
 
 os.chdir("/Users/alexneugebauer/Desktop/")
 
