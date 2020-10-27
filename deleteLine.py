@@ -2,6 +2,7 @@
 # -*- coding: utf8 -*-
 
 import os
+import csv
 
 os.chdir("/Users/alexneugebauer/Desktop/")
 
