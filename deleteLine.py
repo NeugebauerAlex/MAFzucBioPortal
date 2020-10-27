@@ -3,9 +3,6 @@
 
 import os
 import csv
-import glob
-import errno
-
 
 os.chdir("/Users/alexneugebauer/Desktop/")
 
@@ -23,10 +20,24 @@ csv_reader = csv.reader(csv_file, delimiter=';')
 second_column = []
 
 for line in csv_reader:
-    second_column = (line[2]) 
+    second_column = (line[2])
     Result_for_artifact_selection += second_column + '\n'
-    Result_for_artifact_selection_without_header =  Result_for_artifact_selection[11:]
+    Result_for_artifact_selection_without_header = Result_for_artifact_selection[12:]
 
+print(Result_for_artifact_selection_without_header)
+
+# Nehme die aneinandergereihten Strings und Forme sie in eine Liste
+stringIntoList = Result_for_artifact_selection_without_header.split('\n')
+
+# Durch die Liste iterieren, um Duplikate zu eleminieren
+stringIntoList = list(dict.fromkeys(stringIntoList))
+
+print(stringIntoList)
+
+
+def main():
+    for word in enumerate(stringIntoList):
+        delete_line_with_word(original_file, str(word))
 
 
 def delete_line_by_condition(original_file, condition):
@@ -48,10 +59,6 @@ def delete_line_by_condition(original_file, condition):
         os.rename(dummy_file, original_file)
     else:
         os.remove(dummy_file)
-
-
-def main():
-    delete_line_with_word(original_file, Result_for_artifact_selection_without_header)
 
 
 def delete_line_with_word(file_name, word):
