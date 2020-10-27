@@ -21,7 +21,6 @@ csv_file = open(file_name)
 csv_reader = csv.reader(csv_file, delimiter=';')
 
 second_column = []
-second_column = (line[2])
 
 for line in csv_reader:
     second_column = (line[2]) 
