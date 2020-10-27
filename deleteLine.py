@@ -24,20 +24,20 @@ for line in csv_reader:
     Result_for_artifact_selection += second_column + '\n'
     Result_for_artifact_selection_without_header = Result_for_artifact_selection[12:]
 
-print(Result_for_artifact_selection_without_header)
-
 # Nehme die aneinandergereihten Strings und Forme sie in eine Liste
 stringIntoList = Result_for_artifact_selection_without_header.split('\n')
 
 # Durch die Liste iterieren, um Duplikate zu eleminieren
 stringIntoList = list(dict.fromkeys(stringIntoList))
 
-print(stringIntoList)
-
 
 def main():
-    for word in enumerate(stringIntoList):
-        delete_line_with_word(original_file, str(word))
+    length = len(stringIntoList)
+    length_real = length - 1
+    i = 0
+    while i < length_real:
+        delete_line_with_word(original_file, stringIntoList[i])
+        i += 1
 
 
 def delete_line_by_condition(original_file, condition):
