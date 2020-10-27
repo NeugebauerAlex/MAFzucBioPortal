@@ -48,7 +48,7 @@ def delete_line_by_condition(original_file, condition):
 
 
 def main():
-    delete_line_with_word(original_file, 'p.=')
+    delete_line_with_word(original_file, Result_for_artifact_selection_without_header)
 
 
 def delete_line_with_word(file_name, word):
