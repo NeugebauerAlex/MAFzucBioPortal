@@ -9,6 +9,22 @@ original_file = "data_mutations_extended.txt"
 
 dummy_file = "cleaned_file.txt"
 
+Result_for_artifact_selection = ""
+
+# Ziehe Spalte mit Artefakten aus CSV Datei
+file_name = "Artefact_List-Tabelle 1.csv"
+csv_file = open(file_name)
+csv_reader = csv.reader(csv_file, delimiter=';')
+
+second_column = []
+second_column = (line[2])
+
+for line in csv_reader:
+    second_column = (line[2]) 
+    Result_for_artifact_selection += second_column
+    Result_for_artifact_selection_without_header =  Result_for_artifact_selection[11:]
+
+
 
 def delete_line_by_condition(original_file, condition):
     """ In a file, delete the lines at line number in given list"""
