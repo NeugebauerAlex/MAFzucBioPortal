@@ -2,14 +2,17 @@
 # -*- coding: utf8 -*-
 
 import csv
-import glob
 import errno
 import os
 from os.path import abspath
+from backports import configparser
+
+config = configparser.ConfigParser()
+config.read('config.ini')
 
 # Lese die csv Datei ein und Zähle die Zeilen für case_list_description
 
-input_file = open('/home/neugebax/MAF_Dateien/Codierung_Testdaten_Erlangen.csv')
+input_file = open(config['createCasefiles']['input_file'])
 reader_file = csv.reader(input_file)
 value_with_header = len(list(reader_file))
 value = value_with_header - 1
@@ -17,18 +20,18 @@ value = value_with_header - 1
 
 
 # Das Argument und den Pfad angeben für die beiden zu erstellenden case-Dateien
-filename1 = abspath('../../neugebax/MTB/case_lists/cases_all.txt')
-filename2 = abspath('../../neugebax/MTB/case_lists/cases_sequenced.txt')
+filename1 = abspath(config['createCasefiles']['filename1'])
+filename2 = abspath(config['createCasefiles']['filename2'])
 
 #SAMPLE_ID herauskriegen
-os.chdir("/home/neugebax/MAF_Dateien/")
+os.chdir(config['createMetaFiles']['ord_name'])
 
 Result_for_data_clinical_sample = ""
 Result_for_data_clinical_patient = ""
 case_list_id = ""
 
 # Aus der csv Datei die zweite Spalte für die "UKER" Nummer holen
-file_name = "Codierung_Testdaten_Erlangen.csv"
+file_name = (config['createMetaFiles']['file_name_csv'])
 csv_file = open(file_name)
 csv_reader = csv.reader(csv_file, delimiter=';')
 second_column = []
