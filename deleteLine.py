@@ -1,19 +1,22 @@
 #! /usr/bin/env python
 # -*- coding: utf8 -*-
 
-import os
+
+# Wenn es Artefakte aus der Pipeline gibt, die nicht mit in cBioPortal sollen, bitte in einer CSV Datei sammeln und mit diesem Skript aus der kombinierten MAF Datei löschen
 import csv
+import os
+from backports import configparser
 
-os.chdir("/Users/alexneugebauer/Desktop/")
+config = configparser.ConfigParser()
+config.read('config.ini')
 
-original_file = "data_mutations_extended.txt"
-
-dummy_file = "cleaned_file.txt"
-
+os.chdir(config['deleteLine']['ord_name'])
 Result_for_artifact_selection = ""
+original_file = config['deleteLine']['original_file']
+dummy_file = config['deleteLine']['dummy_file']
 
 # Ziehe Spalte mit Artefakten aus CSV Datei
-file_name = "Artefact_List-Tabelle 1.csv"
+file_name = config['deleteLine']['file_name_2']
 csv_file = open(file_name)
 csv_reader = csv.reader(csv_file, delimiter=';')
 
