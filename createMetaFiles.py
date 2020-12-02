@@ -1,33 +1,36 @@
 #! /usr/bin/env python
 # -*- coding: utf8 -*-
 
-import glob
 import os
 import errno
 import random
 from os.path import abspath
 import csv
+from backports import configparser
+
+config = configparser.ConfigParser()
+config.read('config.ini')
 
 # Gebe das Argument und den Pfad, sowie den namen der Datei an, die am Ende erstellt werden soll
-filename = abspath('../../neugebax/MTB/meta_clinical_sample.txt')
-filename1 = abspath('../../neugebax/MTB/meta_study.txt')
-filename2 = abspath('../../neugebax/MTB/meta_clinical_patient.txt')
-filename3 = abspath('../../neugebax/MTB/meta_mutations_extended.txt')
-filename4 = abspath('../../neugebax/MTB/data_clinical_sample.txt')
-filename5 = abspath('../../neugebax/MTB/data_clinical_patient.txt')
+filename = abspath(config['createMetaFiles']['filename'])
+filename1 = abspath(config['createMetaFiles']['filename1'])
+filename2 = abspath(config['createMetaFiles']['filename2'])
+filename3 = abspath(config['createMetaFiles']['filename3'])
+filename4 = abspath(config['createMetaFiles']['filename4'])
+filename5 = abspath(config['createMetaFiles']['filename5'])
 
 # Setze dies auf False, wenn du richtigen Patienten-Daten verwendet werden sollen
-do_it_random = True
+do_it_random = config['createMetaFiles']['Patienten_ID_zufällig?']
 
 
 #SAMPLE_ID herauskriegen
-os.chdir("/home/neugebax/MAF_Dateien/")
+os.chdir(config['createMetaFiles']['ord_name'])
 
 Result_for_data_clinical_sample = ""
 Result_for_data_clinical_patient = ""
 
 # Aus der angegebenen CSV Datei die gewünschten Spalten des Pathologie selektieren und kopieren
-file_name = "Codierung_Testdaten_Erlangen.csv"
+file_name = (config['createMetaFiles']['file_name_csv'])
 csv_file = open(file_name)
 csv_reader = csv.reader(csv_file, delimiter=';')
 first_column = []
@@ -45,7 +48,7 @@ eigth_column = []
 if do_it_random == False:
     for line in csv_reader:
         first_column = (line[1]) #index 1 für zweite column
-        second_column = (line[2]) 
+        second_column = (line[2])
         third_column = (line[3])
         forth_column = (line[4])
         fifth_column = (line[5])
@@ -55,7 +58,7 @@ if do_it_random == False:
         # Kopiere die Selektierten Spalten, in die gewünschten Argumente, die jeweils in data_clinical_patient bzw. data_clinical_sample verwendet werden
         # Immer Tabular getrennt, sonst passt die Formatierung nicht, da ganze Spalten kopiert werden
         # Am Ende immer einen Absatz schreiben, da immer ganze Spalten kopiert werden
-        Result_for_data_clinical_sample += first_column + '\t' + second_column + '\t' + eigth_column +'\n' 
+        Result_for_data_clinical_sample += first_column + '\t' + second_column + '\t' + eigth_column +'\n'
         Result_for_data_clinical_patient += first_column + '\t' + third_column + '\t' + forth_column + '\t' + fifth_column +  '\t' + six_column +  '\t' + seventh_column + '\n'
         # Lösche die Überschriften, sodass nur die puren Daten genommen werden
         Result_for_data_clinical_sample_without_header = Result_for_data_clinical_sample[23:]
@@ -64,7 +67,7 @@ else:
     for line in csv_reader:
         for index in range(0,1):
             first_column = random.randint(1000000000,9999999999)
-        second_column = (line[2]) 
+        second_column = (line[2])
         third_column = (line[3])
         forth_column = (line[4])
         fifth_column = (line[5])
@@ -174,7 +177,7 @@ if not os.path.exists(os.path.dirname(filename4)):
         if exc.errno != errno.EEXIST:
             raise
 
-# Schreibe die Klinische Datei, immer Tabular getrennt, sonst erkennt es cBioPortal nicht 
+# Schreibe die Klinische Datei, immer Tabular getrennt, sonst erkennt es cBioPortal nicht
 with open(filename4, "w") as file:
     file.write("#Patient Identifier\tSample Identifier\tName")
     file.write("\n")
@@ -195,7 +198,7 @@ if not os.path.exists(os.path.dirname(filename5)):
         if exc.errno != errno.EEXIST:
             raise
 
-# Schreibe die Klinische Datei, immer Tabular getrennt, sonst erkennt es cBioPortal nicht 
+# Schreibe die Klinische Datei, immer Tabular getrennt, sonst erkennt es cBioPortal nicht
 with open(filename5, "w") as file:
     file.write('#Patient Identifier\tOncoTree_Code\tCancerType\tGeschlecht\tAlter\tEinweiser')
     file.write("\n")
